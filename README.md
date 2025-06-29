@@ -11,6 +11,7 @@ A Next.js application that provides an AI-powered medical assistant with real-ti
 - Captions for both user and AI assistant speech
 - Session management and history
 - Turn-taking conversation flow (listens for user input after AI speaks)
+- User authentication with Clerk
 
 ## Setup
 
@@ -25,6 +26,14 @@ A Next.js application that provides an AI-powered medical assistant with real-ti
    NEXT_PUBLIC_ASSEMBLYAI_API_KEY=your_assemblyai_api_key_here
    MURF_API_KEY=your_murf_api_key_here
    OPEN_ROUTER_API_KEY=your_openrouter_api_key_here
+
+   # Authentication (Clerk)
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key_here
+   CLERK_SECRET_KEY=your_clerk_secret_key_here
+   NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+   NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/dashboard
+   NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+   NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/dashboard
 
    # Database
    DATABASE_URL="postgresql://postgres:password@localhost:5432/doctor_ai?schema=public"
@@ -70,17 +79,21 @@ If you encounter issues with the voice conversation functionality:
    - The application will automatically fall back to browser TTS if Murf AI fails
    - If you don't have a Murf API key, the system will use browser TTS
 
-4. **Database Errors**: If you see database connection errors:
+4. **Authentication Issues**:
+   - Ensure your Clerk API keys are correctly set in the `.env.local` file
+   - Check that all the Clerk redirect URLs are properly configured
+
+5. **Database Errors**: If you see database connection errors:
    - Make sure your PostgreSQL database is running
    - Check that the `DATABASE_URL` in `.env.local` is correct
    - If you don't need database functionality, the app will still work with limited features
 
-5. **Browser Compatibility**: 
+6. **Browser Compatibility**: 
    - The voice features work best in Chrome and Edge
    - Safari may have limited WebSocket support
    - Make sure your browser supports the Web Audio API
 
-6. **No Speech Detected**:
+7. **No Speech Detected**:
    - Check if the microphone indicator turns green after the AI speaks
    - Try speaking louder or moving closer to your microphone
    - Check if your browser's console shows any WebSocket errors

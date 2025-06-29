@@ -41,7 +41,7 @@ export const TestimonialCard = ({
   img,
   role,
   className,
-  ...props 
+  ...props
 }: TestimonialCardProps) => (
   <div
     className={cn(
@@ -52,7 +52,7 @@ export const TestimonialCard = ({
       "dark:bg-black dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]",
       className
     )}
-    {...props} 
+    {...props}
   >
     <div className="select-none text-sm font-normal text-neutral-700 dark:text-neutral-400">
       {description}
@@ -66,14 +66,6 @@ export const TestimonialCard = ({
     </div>
 
     <div className="flex w-full select-none items-center justify-start gap-5">
-      <Image
-        width={40}
-        height={40}
-        src={img || ""}
-        alt={name}
-        className="h-10 w-10 rounded-full ring-1 ring-border ring-offset-4"
-      />
-
       <div>
         <p className="font-medium text-neutral-500">{name}</p>
         <p className="text-xs font-normal text-neutral-400">{role}</p>

@@ -3,18 +3,15 @@ import { v4 as uuidv4 } from 'uuid';
 import { PrismaClient } from "@/lib/generated/prisma";
 import { currentUser } from "@clerk/nextjs/server";
 
-// Declare global type for prisma
 declare global {
   var prisma: PrismaClient | undefined;
 }
 
-// Use a single PrismaClient instance to prevent connection issues
 let prisma: PrismaClient;
 
 if (process.env.NODE_ENV === 'production') {
   prisma = new PrismaClient();
 } else {
-  // In development, use a global variable to prevent multiple instances
   if (!global.prisma) {
     global.prisma = new PrismaClient();
   }
@@ -59,7 +56,7 @@ export async function GET(request: NextRequest) {
     const result = await prisma.session.findFirst({
       where: {
         sessionId: sessionId,
-        // Make the query work even if user is not authenticated
+          
         ...(userEmail !== 'unknown' ? { createdBy: userEmail } : {})
       },
     })

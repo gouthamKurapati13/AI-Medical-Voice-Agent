@@ -7,11 +7,9 @@ export async function convertAudioToText(audioBlob: Blob): Promise<string> {
   try {
     console.log("Converting audio to text via API...")
 
-    // Create form data to send to API
     const formData = new FormData()
     formData.append('audio', audioBlob, 'recording.wav')
 
-    // Send to our transcription API
     const response = await fetch('/api/transcribe', {
       method: 'POST',
       body: formData
@@ -36,9 +34,7 @@ export async function convertAudioToText(audioBlob: Blob): Promise<string> {
   }
 }
 
-/**
- * Polls AssemblyAI API for transcript results
- */
+
 async function pollForTranscript(transcriptId: string, apiKey: string): Promise<string> {
   let status = "processing"
   let transcript = ""
@@ -46,10 +42,8 @@ async function pollForTranscript(transcriptId: string, apiKey: string): Promise<
   while (status === "processing" || status === "queued") {
     console.log("Polling for transcript results...")
 
-    // Wait before polling again
     await new Promise(resolve => setTimeout(resolve, 1000))
 
-    // Check transcript status
     const response = await fetch(`https://api.assemblyai.com/v2/transcript/${transcriptId}`, {
       headers: {
         "Authorization": apiKey
@@ -73,15 +67,12 @@ async function pollForTranscript(transcriptId: string, apiKey: string): Promise<
   return transcript
 }
 
-/**
- * Converts a Blob to base64 string
- */
 function blobToBase64(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onloadend = () => {
       if (typeof reader.result === "string") {
-        // Remove data URL prefix
+  
         const base64 = reader.result.split(",")[1]
         resolve(base64)
       } else {

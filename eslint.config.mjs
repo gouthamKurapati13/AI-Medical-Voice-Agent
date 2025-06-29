@@ -25,6 +25,7 @@ const eslintConfig = [
       "@typescript-eslint/no-this-alias": "off",
       "react-hooks/exhaustive-deps": "off",
       "@next/next/no-img-element": "off",
+      "react/no-unescaped-entities": "off",
     },
   },
 ];

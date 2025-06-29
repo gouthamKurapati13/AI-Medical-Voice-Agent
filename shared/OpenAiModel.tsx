@@ -1,6 +1,6 @@
 import OpenAI from "openai"
 
-// Create OpenAI client with OpenRouter as the backend
+
 export const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
   apiKey: process.env.OPEN_ROUTER_API_KEY || "",
@@ -10,11 +10,11 @@ export const openai = new OpenAI({
     "X-Title": "AI Doctor Voice Agent"
   },
   defaultQuery: {
-    timeout: "20000" // 30 second timeout as string
+    timeout: "20000" 
   }
 })
 
-// Fallback function if OpenAI/OpenRouter fails
+
 export const generateFallbackResponse = (userMessage: string): string => {
   const fallbackResponses = [
     "I'm sorry, I'm having trouble connecting to my knowledge base right now. Could you please repeat your question?",

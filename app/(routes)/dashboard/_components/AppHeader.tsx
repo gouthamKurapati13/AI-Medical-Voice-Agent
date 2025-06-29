@@ -14,23 +14,6 @@ const menuItems = [
     label: "Home",
     href: "/",
   },
-  {
-    id: 2,
-    label: "History",
-    href: "/history",
-  },
-  {
-    id: 3,
-    label: "Pricing",
-    href: "/pricing",
-  },
-  {
-    id: 4,
-    label: "Profile",
-    href: "/profile",
-  },
-
-
 ]
 
 function AppHeader() {
@@ -68,7 +51,7 @@ function AppHeader() {
 
         <div className="hidden lg:block">
           <div className="flex items-center ">
-            <nav className="mr-10">
+            <nav>
               {menuItems.map((item) => (
                 <Link key={item.id} href={item.href} className="mr-12 font-medium text-gray-500 hover:text-gray-900">
                   {item.label}

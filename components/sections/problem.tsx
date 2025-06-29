@@ -1,26 +1,26 @@
 import BlurFade from "@/components/magicui/blur-fade";
 import Section from "@/components/section";
 import { Card, CardContent } from "@/components/ui/card";
-import { Brain, Shield, Zap } from "lucide-react";
+import { Clock, Users, MapPin } from "lucide-react";
 
 const problems = [
   {
-    title: "Data Overload",
+    title: "Limited Healthcare Access",
     description:
-      "Businesses struggle to make sense of vast amounts of complex data, missing out on valuable insights that could drive growth and innovation.",
-    icon: Brain,
+      "Many people struggle to access medical information and guidance when they need it most, especially outside of regular doctor's office hours.",
+    icon: Clock,
   },
   {
-    title: "Slow Decision-Making",
+    title: "Long Wait Times",
     description:
-      "Traditional data processing methods are too slow, causing businesses to lag behind market changes and miss crucial opportunities.",
-    icon: Zap,
+      "Traditional healthcare often involves scheduling appointments and waiting days or weeks to get answers to basic health questions.",
+    icon: Users,
   },
   {
-    title: "Data Security Concerns",
+    title: "Geographic Barriers",
     description:
-      "With increasing cyber threats, businesses worry about the safety of their sensitive information when adopting new technologies.",
-    icon: Shield,
+      "People in remote or underserved areas face significant challenges in accessing quality healthcare information and services.",
+    icon: MapPin,
   },
 ];
 
@@ -28,7 +28,7 @@ export default function Component() {
   return (
     <Section
       title="Problem"
-      subtitle="Manually entering your data is a hassle."
+      subtitle="Healthcare access shouldn't be difficult"
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
         {problems.map((problem, index) => (

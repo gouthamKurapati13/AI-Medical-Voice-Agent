@@ -4,7 +4,7 @@ export async function POST(req: NextRequest) {
   try {
     console.log("Transcription API called")
 
-    // Get audio data from request
+
     const formData = await req.formData()
     const audioFile = formData.get('audio') as File
 
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Get API key - try both environment variables
+
     const apiKey = process.env.ASSEMBLYAI_API_KEY || process.env.NEXT_PUBLIC_ASSEMBLYAI_API_KEY
 
     if (!apiKey) {
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
 
     console.log("Uploading audio to AssemblyAI...")
 
-    // Upload audio to AssemblyAI
+
     const uploadResponse = await fetch('https://api.assemblyai.com/v2/upload', {
       method: 'POST',
       headers: {
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
 
     console.log("Audio uploaded successfully, requesting transcription...")
 
-    // Request transcription
+
     const transcriptResponse = await fetch('https://api.assemblyai.com/v2/transcript', {
       method: 'POST',
       headers: {
@@ -94,19 +94,19 @@ export async function POST(req: NextRequest) {
 
     console.log("Transcription requested, polling for results...")
 
-    // Poll for transcription result
+
     let status = 'processing'
     let transcript = ''
     let attempts = 0
-    const maxAttempts = 60 // Maximum 60 seconds of polling
+    const maxAttempts = 60 
 
     while ((status === 'processing' || status === 'queued') && attempts < maxAttempts) {
       attempts++
 
-      // Wait before polling again
+      
       await new Promise(resolve => setTimeout(resolve, 1000))
 
-      // Check transcript status
+
       const checkResponse = await fetch(`https://api.assemblyai.com/v2/transcript/${transcriptId}`, {
         headers: {
           'Authorization': apiKey

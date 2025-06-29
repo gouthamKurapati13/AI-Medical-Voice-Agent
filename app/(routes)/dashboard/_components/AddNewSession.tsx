@@ -108,9 +108,9 @@ function AddNewSession({ isOpen, onOpenChange, preSelectedDoctor }: AddNewSessio
                         height={70}
                         className='rounded-full w-[50px] h-[50px] object-cover'
                         onError={(e) => {
-                          // Fallback to a default image if the doctor image fails to load
+                    
                           const target = e.target as HTMLImageElement;
-                          target.onerror = null; // Prevent infinite loop
+                          target.onerror = null; 
                           target.src = "/medical-assistance.png";
                         }}
                       />

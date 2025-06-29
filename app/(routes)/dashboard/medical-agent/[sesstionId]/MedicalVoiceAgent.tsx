@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { useParams } from 'next/navigation'
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { Circle, PhoneCall, StopCircle } from 'lucide-react'
+import { Circle, PhoneCall, StopCircle, Bug } from 'lucide-react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Doctor } from '../../_components/DoctorsList'
@@ -26,20 +26,18 @@ type Session = {
 function MedicalVoiceAgent() {
   const { sesstionId } = useParams()
 
-  // Session and doctor state
+
   const [session, setSession] = useState<Session>()
   const [doctorImage, setDoctorImage] = useState<string | null>(null)
   const [doctorSpecialist, setDoctorSpecialist] = useState<string>("")
   const [doctorPrompt, setDoctorPrompt] = useState<string>("")
   const [doctorId, setDoctorId] = useState<number | undefined>(undefined)
 
-  // Call state
   const [isCallActive, setIsCallActive] = useState(false)
   const [callDuration, setCallDuration] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Conversation state
   const [messages, setMessages] = useState<Message[]>([])
   const [userCaption, setUserCaption] = useState<string>("")
   const [assistantCaption, setAssistantCaption] = useState<string>("")
@@ -47,22 +45,21 @@ function MedicalVoiceAgent() {
   const [isSpeaking, setIsSpeaking] = useState(false)
   const [currentAssistantText, setCurrentAssistantText] = useState<string>("")
 
-  // Timer reference
+
+  const [showDebugTools, setShowDebugTools] = useState(false)
+
+
   const timerRef = useRef<NodeJS.Timeout | null>(null)
 
-  // Conversation manager reference
   const conversationManagerRef = useRef<ConversationManagerRef>(null)
 
-  // Add a state for transcription loading
   const [isTranscribing, setIsTranscribing] = useState(false)
 
-  // Add audioElementRef
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
 
-  // Add a ref for the TextToSpeech component
+
   const textToSpeechRef = useRef<TextToSpeechRef>(null);
 
-  // Load session details
   useEffect(() => {
     if (sesstionId) {
       getSessionDetails()
@@ -73,7 +70,6 @@ function MedicalVoiceAgent() {
     }
   }, [sesstionId])
 
-  // Timer for call duration
   useEffect(() => {
     if (isCallActive) {
       timerRef.current = setInterval(() => {
@@ -96,13 +92,14 @@ function MedicalVoiceAgent() {
       const response = await axios.get(`/api/session-chat?sessionId=${sesstionId}`)
       setSession(response.data)
 
-      // Handle the doctor data from selectedDocter field (note the spelling in the DB)
       if (response.data?.selectedDocter) {
         const doctorData = response.data.selectedDocter
         setDoctorImage(doctorData.image || null)
         setDoctorSpecialist(doctorData.specialist || "AI Medical Agent")
         setDoctorPrompt(doctorData.agentPrompt || "")
         setDoctorId(doctorData.id)
+
+        console.log(`Doctor ID: ${doctorData.id}, Voice ID: ${doctorData.voiceId || 'default'}`)
       }
 
       setIsLoading(false)
@@ -111,7 +108,6 @@ function MedicalVoiceAgent() {
       setError("Failed to load session details. Using default settings.")
       setIsLoading(false)
 
-      // Set default values so the app can still function
       setDoctorSpecialist("AI Medical Agent")
       setDoctorImage("/doctor1.png")
       setDoctorId(1)
@@ -124,15 +120,12 @@ function MedicalVoiceAgent() {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
   }
 
-  // Start the voice call
   const startCall = async () => {
     try {
       setIsLoading(true)
       setError(null)
       setIsCallActive(true)
 
-      // We'll start listening automatically after the AI's initial greeting is spoken
-      // This is handled by the handleSpeakingEnd callback
 
       setIsLoading(false)
     } catch (error: unknown) {
@@ -142,29 +135,34 @@ function MedicalVoiceAgent() {
     }
   }
 
-  // Stop the voice call
+
   const stopCall = () => {
     console.log("Stopping call and resetting all components...")
 
-    // Stop any ongoing speech
+    setIsCallActive(false)
+
     if (textToSpeechRef.current) {
+      console.log("Stopping TTS speech...")
       textToSpeechRef.current.stopSpeaking();
     }
 
-    // Stop any ongoing audio playback
     if (audioElementRef.current) {
+      console.log("Stopping audio playback...")
       audioElementRef.current.pause()
       audioElementRef.current.src = ''
     }
 
-    // Clear timer
+    if (window.speechSynthesis) {
+      console.log("Cancelling speech synthesis...")
+      window.speechSynthesis.cancel()
+    }
+
     if (timerRef.current) {
+      console.log("Clearing timer...")
       clearInterval(timerRef.current)
       timerRef.current = null
     }
 
-    // Reset state
-    setIsCallActive(false)
     setIsListening(false)
     setIsSpeaking(false)
     setIsTranscribing(false)
@@ -173,13 +171,11 @@ function MedicalVoiceAgent() {
     setCurrentAssistantText("")
     setCallDuration(0)
 
-    // Clear messages
     setMessages([])
 
     console.log("Call stopped and all components reset")
   }
 
-  // Handle transcript from AudioProcessor
   const handleTranscript = useCallback((transcript: string, isFinal: boolean) => {
     setUserCaption(transcript);
 
@@ -188,10 +184,8 @@ function MedicalVoiceAgent() {
     }
   }, []);
 
-  // Handle new message from ConversationManager
   const handleNewMessage = useCallback((message: Message) => {
     setMessages(prev => {
-      // Check if message already exists to prevent duplicates
       const exists = prev.some(m =>
         m.role === message.role &&
         m.content === message.content &&
@@ -205,30 +199,35 @@ function MedicalVoiceAgent() {
     if (message.role === 'assistant') {
       setAssistantCaption(message.content);
       setCurrentAssistantText(message.content);
+
+      console.log(`AI response received (${message.content.length} chars). Sending to TTS...`);
     }
   }, []);
 
-  // Handle speaking start/end
   const handleSpeakingStart = useCallback(() => {
+    console.log("AI speaking started");
     setIsSpeaking(true);
     setIsListening(false);
   }, []);
 
   const handleSpeakingEnd = useCallback(() => {
+    console.log("AI speaking ended");
     setIsSpeaking(false);
-    // Start listening after AI finishes speaking
-    setTimeout(() => {
-      setIsListening(true);
-    }, 500);
-  }, []);
 
-  // Handle errors
+    setTimeout(() => {
+      if (isCallActive) {
+        setIsListening(true);
+      }
+    }, 500);
+  }, [isCallActive]);
+
+
   const handleError = useCallback((errorMessage: string) => {
     console.error(errorMessage);
     setError(errorMessage);
   }, []);
 
-  // Update the handleRecordingComplete function
+
   const handleRecordingComplete = async (audioBlob: Blob) => {
     try {
       setIsTranscribing(true)
@@ -236,15 +235,13 @@ function MedicalVoiceAgent() {
 
       console.log("Processing recorded audio...")
 
-      // Use our service to convert audio to text
+
       const transcript = await convertAudioToText(audioBlob)
 
       console.log("Transcription result:", transcript)
 
-      // Update user caption
       setUserCaption(transcript)
 
-      // Send to conversation manager
       if (conversationManagerRef.current) {
         conversationManagerRef.current.handleTranscript(transcript, true)
       }
@@ -271,14 +268,11 @@ function MedicalVoiceAgent() {
             </>
           )}
         </h2>
-        <h2 className='text-xl font-bold text-gray-500'>{formatTime(callDuration)}</h2>
-      </div>
-
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4 mb-4">
-          <span className="block sm:inline">{error}</span>
+        <div className="flex items-center gap-2">
+          <h2 className='text-xl font-bold text-gray-500'>{formatTime(callDuration)}</h2>
+         
         </div>
-      )}
+      </div>
 
       <div className='flex flex-col items-center gap-2 mt-10 justify-center'>
         {doctorImage ? (
@@ -298,7 +292,6 @@ function MedicalVoiceAgent() {
           <h2 className='text-lg font-bold mt-2'>{doctorSpecialist}</h2>
           <p className='text-sm text-gray-500'>AI Medical Agent</p>
 
-          {/* Conversation Display */}
           <ConversationDisplay
             messages={messages}
             userCaption={userCaption}
@@ -331,8 +324,7 @@ function MedicalVoiceAgent() {
           )}
         </div>
       </div>
-
-      {/* Non-visual components */}
+                        
       {isCallActive && (
         <>
           <AudioProcessor

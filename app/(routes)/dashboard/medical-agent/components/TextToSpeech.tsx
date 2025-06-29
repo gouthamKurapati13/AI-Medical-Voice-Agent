@@ -28,20 +28,20 @@ const TextToSpeech = forwardRef<TextToSpeechRef, TextToSpeechProps>(({
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const previousTextRef = useRef<string>("");
   const speechSynthesisUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const [murfApiCalls, setMurfApiCalls] = useState<number>(0);
+  const [browserTtsFallbacks, setBrowserTtsFallbacks] = useState<number>(0);
+  const [lastApiError, setLastApiError] = useState<string | null>(null);
 
-  // Expose the stopSpeaking method to the parent component
   useImperativeHandle(ref, () => ({
     stopSpeaking: () => {
       stopSpeaking();
     }
   }));
 
-  // Initialize audio element
   useEffect(() => {
     if (!audioElementRef.current) {
       audioElementRef.current = new Audio();
 
-      // Set up event listeners
       audioElementRef.current.addEventListener('ended', handleAudioEnded);
       audioElementRef.current.addEventListener('error', handleAudioError);
     }
@@ -57,13 +57,13 @@ const TextToSpeech = forwardRef<TextToSpeechRef, TextToSpeechProps>(({
     };
   }, []);
 
-  // Process new text when it changes
+
   useEffect(() => {
     if (text && text.trim() !== '' && text !== previousTextRef.current) {
       previousTextRef.current = text;
 
       if (isProcessing) {
-        // Queue the text for later
+
         setPendingText(text);
       } else {
         processText(text);
@@ -71,7 +71,7 @@ const TextToSpeech = forwardRef<TextToSpeechRef, TextToSpeechProps>(({
     }
   }, [text]);
 
-  // Process pending text when processing finishes
+
   useEffect(() => {
     if (!isProcessing && pendingText) {
       const textToProcess = pendingText;
@@ -80,36 +80,46 @@ const TextToSpeech = forwardRef<TextToSpeechRef, TextToSpeechProps>(({
     }
   }, [isProcessing, pendingText]);
 
+
+  useEffect(() => {
+    console.log(`TTS Stats - Murf API calls: ${murfApiCalls}, Browser TTS fallbacks: ${browserTtsFallbacks}`);
+    if (lastApiError) {
+      console.error(`Last API error: ${lastApiError}`);
+    }
+  }, [murfApiCalls, browserTtsFallbacks, lastApiError]);
+
   const handleAudioEnded = () => {
     setIsProcessing(false);
     onSpeakingEnd();
   };
 
-  const handleAudioError = () => {
+  const handleAudioError = (e: Event) => {
+    console.error("Audio playback error occurred", e);
     setIsProcessing(false);
     onSpeakingEnd();
   };
 
-  // Stop any ongoing speech
-  const stopSpeaking = () => {
 
-    // Stop audio element playback
+  const stopSpeaking = () => {
+    console.log("TextToSpeech: stopSpeaking called");
+
+
     if (audioElementRef.current) {
       audioElementRef.current.pause();
       audioElementRef.current.src = '';
     }
 
-    // Cancel browser speech synthesis
+
     if (window.speechSynthesis) {
       window.speechSynthesis.cancel();
     }
 
-    // Cancel current utterance
+
     if (speechSynthesisUtteranceRef.current) {
       speechSynthesisUtteranceRef.current = null;
     }
 
-    // Reset state
+
     setIsProcessing(false);
     setPendingText("");
   };
@@ -117,14 +127,16 @@ const TextToSpeech = forwardRef<TextToSpeechRef, TextToSpeechProps>(({
   const processText = async (textToSpeak: string) => {
     if (!textToSpeak || textToSpeak.trim() === '') return;
 
-    // Stop any ongoing speech first
+
     stopSpeaking();
 
     setIsProcessing(true);
     onSpeakingStart();
 
     try {
-      // Call API to get Murf AI TTS audio
+      console.log(`Calling Murf AI TTS API with doctorId: ${doctorId}, voiceId: ${voiceId}`);
+
+
       const response = await axios.post('/api/tts', {
         text: textToSpeak,
         voiceId: voiceId,
@@ -132,15 +144,19 @@ const TextToSpeech = forwardRef<TextToSpeechRef, TextToSpeechProps>(({
       }, {
         responseType: 'blob',
         validateStatus: function (status) {
-          return status < 500; // Accept all responses with status code < 500
+          return status < 500; 
         }
       });
 
-      // Check if we got a binary response or a JSON response
+
       const contentType = response.headers['content-type'];
 
       if (contentType && contentType.includes('audio')) {
-        // We got binary audio data
+
+        console.log("Murf AI TTS successful - received audio data");
+        setMurfApiCalls(prev => prev + 1);
+        setLastApiError(null);
+
         const audioUrl = URL.createObjectURL(response.data);
 
         if (audioElementRef.current) {
@@ -148,41 +164,61 @@ const TextToSpeech = forwardRef<TextToSpeechRef, TextToSpeechProps>(({
 
           try {
             await audioElementRef.current.play();
-            // The ended event will trigger onSpeakingEnd and setIsProcessing(false)
-          } catch { 
+
+          } catch (error) {
+            console.error("Error playing Murf AI audio:", error);
             setIsProcessing(false);
             onSpeakingEnd();
 
-            // Use browser's built-in TTS as fallback
+
             await playBrowserTTS(textToSpeak);
           }
         }
       } else {
-        // We got a JSON response - likely a fallback request for browser TTS
+
+        console.log("Murf AI TTS returned JSON response - likely fallback to browser TTS");
+
         try {
-          // Convert the blob to JSON
-          const jsonResponse = JSON.parse(await response.data.text());
+
+          const jsonData = await response.data.text();
+          const jsonResponse = JSON.parse(jsonData);
+
+
+          if (jsonResponse.error) {
+            setLastApiError(jsonResponse.error);
+            if (jsonResponse.errorDetails) {
+              console.error("Detailed Murf API error:", jsonResponse.errorDetails);
+            }
+          }
 
           if (jsonResponse.useBrowserTTS) {
+            console.log("Murf API requested browser TTS fallback");
+            setBrowserTtsFallbacks(prev => prev + 1);
             await playBrowserTTS(jsonResponse.text || textToSpeak);
           } else {
             throw new Error("Invalid TTS response");
           }
-        } catch {
+        } catch (error) {
+          console.error("Error parsing TTS response:", error);
+          setBrowserTtsFallbacks(prev => prev + 1);
           await playBrowserTTS(textToSpeak);
         }
       }
-    } catch {
+    } catch (error) {
+      console.error("Failed to generate speech with Murf AI:", error);
       setIsProcessing(false);
       onError("Failed to generate speech. Using browser TTS instead.");
+      setBrowserTtsFallbacks(prev => prev + 1);
 
-      // Fallback to browser's built-in TTS
+
       await playBrowserTTS(textToSpeak);
     }
   };
 
-  // Fallback to browser's built-in TTS
+
   const playBrowserTTS = (textToSpeak: string): Promise<void> => {
+    console.log("Using browser's built-in TTS as fallback");
+
     return new Promise((resolve) => {
       try {
         if ('speechSynthesis' in window) {
@@ -194,12 +230,14 @@ const TextToSpeech = forwardRef<TextToSpeechRef, TextToSpeechProps>(({
           utterance.volume = 1.0;
 
           utterance.onend = () => {
+            console.log("Browser TTS speech ended");
             setIsProcessing(false);
             onSpeakingEnd();
             resolve();
           };
 
-          utterance.onerror = () => {
+          utterance.onerror = (event) => {
+            console.error("Browser TTS error:", event);
             setIsProcessing(false);
             onSpeakingEnd();
             resolve();
@@ -207,11 +245,13 @@ const TextToSpeech = forwardRef<TextToSpeechRef, TextToSpeechProps>(({
 
           window.speechSynthesis.speak(utterance);
         } else {
+          console.warn("SpeechSynthesis not supported in this browser");
           setIsProcessing(false);
           onSpeakingEnd();
           resolve();
         }
-      } catch {
+      } catch (error) {
+        console.error("Error with browser TTS:", error);
         setIsProcessing(false);
         onSpeakingEnd();
         resolve();
@@ -219,7 +259,7 @@ const TextToSpeech = forwardRef<TextToSpeechRef, TextToSpeechProps>(({
     });
   };
 
-  return null; // This is a non-visual component
+  return null; 
 });
 
 TextToSpeech.displayName = 'TextToSpeech';

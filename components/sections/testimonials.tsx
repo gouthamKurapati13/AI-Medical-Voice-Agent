@@ -41,18 +41,18 @@ export const TestimonialCard = ({
   img,
   role,
   className,
-  ...props // Capture the rest of the props
+  ...props 
 }: TestimonialCardProps) => (
   <div
     className={cn(
       "mb-4 flex w-full cursor-pointer break-inside-avoid flex-col items-center justify-between gap-6 rounded-xl p-4",
-      // light styles
+
       " border border-neutral-200 bg-white",
-      // dark styles
+
       "dark:bg-black dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]",
       className
     )}
-    {...props} // Spread the rest of the props here
+    {...props} 
   >
     <div className="select-none text-sm font-normal text-neutral-700 dark:text-neutral-400">
       {description}
@@ -84,184 +84,167 @@ export const TestimonialCard = ({
 
 const testimonials = [
   {
-    name: "Alex Rivera",
-    role: "CTO at InnovateTech",
-    img: "https://randomuser.me/api/portraits/men/91.jpg",
+    name: "Dr. Emma Thompson",
+    role: "Pediatrician at Children's Hospital",
+    img: "https://randomuser.me/api/portraits/women/91.jpg",
     description: (
       <p>
-        The AI-driven analytics from #QuantumInsights have revolutionized our
-        product development cycle.
+        Doctor AI has transformed how I provide after-hours support to my patients.
         <Highlight>
-          Insights are now more accurate and faster than ever.
+          Parents can get reliable information when they need it most.
         </Highlight>{" "}
-        A game-changer for tech companies.
+        A valuable tool for any pediatric practice.
       </p>
     ),
   },
   {
-    name: "Samantha Lee",
-    role: "Marketing Director at NextGen Solutions",
-    img: "https://randomuser.me/api/portraits/women/12.jpg",
+    name: "Michael Chen",
+    role: "Patient with Chronic Condition",
+    img: "https://randomuser.me/api/portraits/men/12.jpg",
     description: (
       <p>
-        Implementing #AIStream&apos;s customer prediction model has drastically
-        improved our targeting strategy.
-        <Highlight>Seeing a 50% increase in conversion rates!</Highlight> Highly
-        recommend their solutions.
+        Living with diabetes means I always have questions about my condition.
+        <Highlight>Doctor AI helps me manage my health between appointments.</Highlight> The voice interface makes it accessible even when my vision is affected.
       </p>
     ),
   },
   {
-    name: "Raj Patel",
-    role: "Founder & CEO at StartUp Grid",
+    name: "Dr. Raj Patel",
+    role: "Medical Director at Rural Health Clinic",
     img: "https://randomuser.me/api/portraits/men/45.jpg",
     description: (
       <p>
-        As a startup, we need to move fast and stay ahead. #CodeAI&apos;s
-        automated coding assistant helps us do just that.
-        <Highlight>Our development speed has doubled.</Highlight> Essential tool
-        for any startup.
+        In our underserved rural area, Doctor AI provides much-needed medical guidance.
+        <Highlight>Patients can get preliminary information before traveling long distances.</Highlight> A game-changer for rural healthcare.
       </p>
     ),
   },
   {
-    name: "Emily Chen",
-    role: "Product Manager at Digital Wave",
+    name: "Emily Rodriguez",
+    role: "Busy Mom of Three",
     img: "https://randomuser.me/api/portraits/women/83.jpg",
     description: (
       <p>
-        #VoiceGen&apos;s AI-driven voice synthesis has made creating global
-        products a breeze.
-        <Highlight>Localization is now seamless and efficient.</Highlight> A
-        must-have for global product teams.
+        With three kids, I'm constantly worried about fevers, rashes, and coughs.
+        <Highlight>Doctor AI helps me determine when to rush to the ER versus when to wait.</Highlight> It's like having a pediatric nurse on call.
       </p>
     ),
   },
   {
-    name: "Michael Brown",
-    role: "Data Scientist at FinTech Innovations",
+    name: "James Wilson",
+    role: "Elderly Patient",
     img: "https://randomuser.me/api/portraits/men/1.jpg",
     description: (
       <p>
-        Leveraging #DataCrunch&apos;s AI for our financial models has given us
-        an edge in predictive accuracy.
+        At my age, I have many health concerns but limited mobility.
         <Highlight>
-          Our investment strategies are now powered by real-time data analytics.
+          The voice interface means I don't have to type or navigate complex menus.
         </Highlight>{" "}
-        Transformative for the finance industry.
+        Perfect for seniors like me.
       </p>
     ),
   },
   {
-    name: "Linda Wu",
-    role: "VP of Operations at LogiChain Solutions",
+    name: "Dr. Linda Wu",
+    role: "Telemedicine Specialist",
     img: "https://randomuser.me/api/portraits/women/5.jpg",
     description: (
       <p>
-        #LogiTech&apos;s supply chain optimization tools have drastically
-        reduced our operational costs.
+        Doctor AI complements our telemedicine services perfectly.
         <Highlight>
-          Efficiency and accuracy in logistics have never been better.
+          Patients can use it for initial screening before video consultations.
         </Highlight>{" "}
+        It's improving our efficiency and patient satisfaction.
       </p>
     ),
   },
   {
     name: "Carlos Gomez",
-    role: "Head of R&D at EcoInnovate",
+    role: "Healthcare Administrator",
     img: "https://randomuser.me/api/portraits/men/14.jpg",
     description: (
       <p>
-        By integrating #GreenTech&apos;s sustainable energy solutions,
-        we&apos;ve seen a significant reduction in carbon footprint.
+        Implementing Doctor AI in our hospital system has reduced unnecessary ER visits.
         <Highlight>
-          Leading the way in eco-friendly business practices.
+          Patients get guidance on the appropriate level of care they need.
         </Highlight>{" "}
-        Pioneering change in the industry.
+        A cost-effective solution for modern healthcare.
       </p>
     ),
   },
   {
     name: "Aisha Khan",
-    role: "Chief Marketing Officer at Fashion Forward",
+    role: "International Traveler",
     img: "https://randomuser.me/api/portraits/women/56.jpg",
     description: (
       <p>
-        #TrendSetter&apos;s market analysis AI has transformed how we approach
-        fashion trends.
+        When traveling abroad, Doctor AI has been my reliable health companion.
         <Highlight>
-          Our campaigns are now data-driven with higher customer engagement.
+          I can discuss symptoms and get advice no matter where I am.
         </Highlight>{" "}
-        Revolutionizing fashion marketing.
+        Essential for frequent travelers.
       </p>
     ),
   },
   {
     name: "Tom Chen",
-    role: "Director of IT at HealthTech Solutions",
+    role: "Remote Worker",
     img: "https://randomuser.me/api/portraits/men/18.jpg",
     description: (
       <p>
-        Implementing #MediCareAI in our patient care systems has improved
-        patient outcomes significantly.
+        Working from a remote location means healthcare access is limited.
         <Highlight>
-          Technology and healthcare working hand in hand for better health.
+          Doctor AI bridges the gap when I need medical guidance quickly.
         </Highlight>{" "}
-        A milestone in medical technology.
+        The voice conversation feels remarkably natural.
       </p>
     ),
   },
   {
     name: "Sofia Patel",
-    role: "CEO at EduTech Innovations",
+    role: "College Student",
     img: "https://randomuser.me/api/portraits/women/73.jpg",
     description: (
       <p>
-        #LearnSmart&apos;s AI-driven personalized learning plans have doubled
-        student performance metrics.
+        As a student away from home, I often worry about health issues.
         <Highlight>
-          Education tailored to every learner&apos;s needs.
+          Doctor AI helps me decide if I should visit the campus clinic.
         </Highlight>{" "}
-        Transforming the educational landscape.
+        It's like having my mom's medical advice but more scientific!
       </p>
     ),
   },
   {
-    name: "Jake Morrison",
-    role: "CTO at SecureNet Tech",
+    name: "Dr. Jake Morrison",
+    role: "Emergency Physician",
     img: "https://randomuser.me/api/portraits/men/25.jpg",
     description: (
       <p>
-        With #CyberShield&apos;s AI-powered security systems, our data
-        protection levels are unmatched.
-        <Highlight>Ensuring safety and trust in digital spaces.</Highlight>{" "}
-        Redefining cybersecurity standards.
+        Doctor AI helps triage patients before they even arrive at the ER.
+        <Highlight>This pre-screening helps us prioritize critical cases.</Highlight>{" "}
+        An innovative approach to emergency medicine.
       </p>
     ),
   },
   {
     name: "Nadia Ali",
-    role: "Product Manager at Creative Solutions",
+    role: "Patient with Language Barrier",
     img: "https://randomuser.me/api/portraits/women/78.jpg",
     description: (
       <p>
-        #DesignPro&apos;s AI has streamlined our creative process, enhancing
-        productivity and innovation.
-        <Highlight>Bringing creativity and technology together.</Highlight> A
-        game-changer for creative industries.
+        English is my second language, and Doctor AI's clear speech is easy to understand.
+        <Highlight>The conversation feels patient and accommodating.</Highlight> It's breaking down language barriers in healthcare.
       </p>
     ),
   },
   {
     name: "Omar Farooq",
-    role: "Founder at Startup Hub",
+    role: "Healthcare Startup Founder",
     img: "https://randomuser.me/api/portraits/men/54.jpg",
     description: (
       <p>
-        #VentureAI&apos;s insights into startup ecosystems have been invaluable
-        for our growth and funding strategies.
-        <Highlight>Empowering startups with data-driven decisions.</Highlight> A
-        catalyst for startup success.
+        We've integrated Doctor AI into our patient portal with amazing results.
+        <Highlight>Patient engagement has increased by 65%.</Highlight> The voice interface is the future of digital health.
       </p>
     ),
   },
@@ -271,7 +254,7 @@ export default function Testimonials() {
   return (
     <Section
       title="Testimonials"
-      subtitle="What our customers are saying"
+      subtitle="What our users are saying"
       className="max-w-8xl"
     >
       <div className="relative mt-6 max-h-screen overflow-hidden">

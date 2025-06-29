@@ -5,16 +5,16 @@ import { RiInstagramFill } from "react-icons/ri";
 export const BLUR_FADE_DELAY = 0.15;
 
 export const siteConfig = {
-  name: "acme.ai",
-  description: "Automate your workflow with AI",
+  name: "Doctor.ai",
+  description: "AI-powered medical assistant with voice conversation",
   url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
-  keywords: ["SaaS", "Template", "Next.js", "React", "Tailwind CSS"],
+  keywords: ["Medical AI", "Voice Assistant", "Healthcare", "AI Doctor", "Medical Consultation"],
   links: {
-    email: "support@acme.ai",
-    twitter: "https://twitter.com/magicuidesign",
-    discord: "https://discord.gg/87p2vpsat5",
-    github: "https://github.com/magicuidesign/magicui",
-    instagram: "https://instagram.com/magicuidesign/",
+    email: "support@doctorai.com",
+    twitter: "https://twitter.com/doctorai",
+    discord: "https://discord.gg/doctorai",
+    github: "https://github.com/doctorai/doctor-ai-agent",
+    instagram: "https://instagram.com/doctorai/",
   },
   header: [
     {
@@ -34,7 +34,7 @@ export const siteConfig = {
       content: {
         main: {
           title: "Resources",
-          description: "Find helpful resources for your AI journey",
+          description: "Find helpful resources for your healthcare journey",
           href: "#resources",
           icon: null,
         },
@@ -50,9 +50,9 @@ export const siteConfig = {
             description: "Explore our API endpoints",
           },
           {
-            title: "Blog",
+            title: "Health Blog",
             href: "#",
-            description: "Read our latest articles",
+            description: "Read our latest medical articles",
           },
         ],
       },
@@ -71,12 +71,12 @@ export const siteConfig = {
       yearlyPrice: "$16",
       features: [
         "1 User",
-        "5GB Storage",
-        "Basic Support",
-        "Limited API Access",
-        "Standard Analytics",
+        "10 Consultations/month",
+        "Basic Medical Support",
+        "Text-only Responses",
+        "Session History (7 days)",
       ],
-      description: "Perfect for individuals and small projects",
+      description: "Perfect for individuals with occasional health questions",
       buttonText: "Subscribe",
       isPopular: false,
     },
@@ -88,12 +88,12 @@ export const siteConfig = {
       yearlyPrice: "$40",
       features: [
         "5 Users",
-        "50GB Storage",
+        "50 Consultations/month",
         "Priority Support",
-        "Full API Access",
-        "Advanced Analytics",
+        "Voice & Text Responses",
+        "Session History (30 days)",
       ],
-      description: "Ideal for growing businesses and teams",
+      description: "Ideal for families and small healthcare practices",
       buttonText: "Subscribe",
       isPopular: true,
     },
@@ -105,66 +105,54 @@ export const siteConfig = {
       yearlyPrice: "$82",
       features: [
         "Unlimited Users",
-        "500GB Storage",
+        "Unlimited Consultations",
         "24/7 Premium Support",
-        "Custom Integrations",
-        "AI-Powered Insights",
+        "Custom Medical Knowledge Base",
+        "Permanent Session History",
       ],
-      description: "For large-scale operations and high-volume users",
+      description: "For healthcare organizations and medical practices",
       buttonText: "Subscribe",
       isPopular: false,
     },
   ],
   faqs: [
     {
-      question: "What is acme.ai?",
+      question: "What is Doctor AI?",
       answer: (
         <span>
-          acme.ai is a platform that helps you build and manage your AI-powered
-          applications. It provides tools and services to streamline the
-          development and deployment of AI solutions.
+          Doctor AI is an AI-powered medical assistant that provides real-time voice conversations to help answer your health questions. It uses advanced speech-to-text and text-to-speech technology to create a natural, conversational experience.
         </span>
       ),
     },
     {
-      question: "How can I get started with acme.ai?",
+      question: "How does the voice conversation work?",
       answer: (
         <span>
-          You can get started with acme.ai by signing up for an account on our
-          website, creating a new project, and following our quick-start guide.
-          We also offer tutorials and documentation to help you along the way.
+          The voice conversation follows a natural turn-taking flow. When you start a call, the AI introduces itself, then listens for your input. After you speak, it processes your speech, generates a response, and speaks back to you. This back-and-forth continues until you end the call.
         </span>
       ),
     },
     {
-      question: "What types of AI models does acme.ai support?",
+      question: "Is my medical information kept private?",
       answer: (
         <span>
-          acme.ai supports a wide range of AI models, including but not limited
-          to natural language processing, computer vision, and predictive
-          analytics. We continuously update our platform to support the latest
-          AI technologies.
+          Yes, we take privacy very seriously. All conversations are encrypted and stored securely. We comply with healthcare privacy standards and do not share your medical information with third parties without your consent.
         </span>
       ),
     },
     {
-      question: "Is acme.ai suitable for beginners in AI development?",
+      question: "Can Doctor AI replace my actual doctor?",
       answer: (
         <span>
-          Yes, acme.ai is designed to be user-friendly for both beginners and
-          experienced developers. We offer intuitive interfaces, pre-built
-          templates, and extensive learning resources to help users of all skill
-          levels create AI-powered applications.
+          No, Doctor AI is designed to be a helpful resource but is not a replacement for professional medical care. Always consult with a qualified healthcare professional for medical advice, diagnosis, and treatment.
         </span>
       ),
     },
     {
-      question: "What kind of support does acme.ai provide?",
+      question: "What browsers and devices are supported?",
       answer: (
         <span>
-          acme.ai provides comprehensive support including documentation, video
-          tutorials, a community forum, and dedicated customer support. We also
-          offer premium support plans for enterprises with more complex needs.
+          Doctor AI works best in Chrome and Edge browsers. The voice features require a device with a microphone and speakers. Safari may have limited WebSocket support. Mobile devices are supported but may have varying performance.
         </span>
       ),
     },

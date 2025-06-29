@@ -49,7 +49,7 @@ export default function Header() {
 
             <div className="gap-2 flex">
               <Link
-                href={user ? "/dashboard" : "/signin"}
+                href={user ? "/dashboard" : "/sign-in"}
                 className={buttonVariants({ variant: "outline" })}
               >
                 {user ? "Dashboard" : "Login"}
@@ -59,14 +59,14 @@ export default function Header() {
               )}
               {!user && (
                 <Link
-                  href="/signup"
+                  href="/sign-up"
                   className={cn(
                     buttonVariants({ variant: "default" }),
                     "w-full sm:w-auto text-background flex gap-2"
                   )}
                 >
                   <Icons.logo className="h-6 w-6" />
-                  Get Started for Free
+                  Start a Consultation
                 </Link>
               )
               }
@@ -77,7 +77,7 @@ export default function Header() {
         <div className="mt-2 cursor-pointer block lg:hidden">
           <div className="flex items-center gap-4">
             <Link
-              href={user ? "/dashboard" : "/signin"}
+              href={user ? "/dashboard" : "/sign-in"}
               className={buttonVariants({ variant: "outline" })}
             >
               {user ? "Dashboard" : "Login"}

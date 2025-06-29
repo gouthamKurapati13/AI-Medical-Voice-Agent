@@ -20,18 +20,17 @@ const ConversationDisplay = ({
   isSpeaking
 }: ConversationDisplayProps) => {
   return (
-    <div className='flex flex-col gap-2 mt-10 w-full max-w-md'>
-      {/* Message history */}
-      <div className='max-h-[300px] overflow-y-auto p-4 border rounded-lg mb-4'>
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`mb-3 ${message.role === 'assistant' ? 'text-blue-600' : 'text-green-600'}`}
-          >
-            <strong>{message.role === 'assistant' ? '🩺 Doctor: ' : '👤 User: '}</strong>
-            <span>{message.content}</span>
+    <div className='flex flex-col gap-2 mt-10 w-full max-w-'>
+      {/* Assistant caption with speaking indicator */}
+      <div className='border p-2 rounded-md bg-gray-50 min-h-[40px] flex justify-between items-center'>
+        <p className='text-sm text-blue-500'>🩺 Doctor: {assistantCaption}</p>
+        {isCallActive && isSpeaking && (
+          <div className="flex space-x-1">
+            <div className="w-1 h-4 bg-blue-500 animate-pulse rounded-full"></div>
+            <div className="w-1 h-4 bg-blue-500 animate-pulse rounded-full animation-delay-200"></div>
+            <div className="w-1 h-4 bg-blue-500 animate-pulse rounded-full animation-delay-400"></div>
           </div>
-        ))}
+        )}
       </div>
 
       {/* User caption with listening indicator */}
@@ -48,17 +47,6 @@ const ConversationDisplay = ({
         )}
       </div>
 
-      {/* Assistant caption with speaking indicator */}
-      <div className='border p-2 rounded-md bg-gray-50 min-h-[40px] flex justify-between items-center'>
-        <p className='text-sm text-blue-500'>🩺 Doctor: {assistantCaption}</p>
-        {isCallActive && isSpeaking && (
-          <div className="flex space-x-1">
-            <div className="w-1 h-4 bg-blue-500 animate-pulse rounded-full"></div>
-            <div className="w-1 h-4 bg-blue-500 animate-pulse rounded-full animation-delay-200"></div>
-            <div className="w-1 h-4 bg-blue-500 animate-pulse rounded-full animation-delay-400"></div>
-          </div>
-        )}
-      </div>
     </div>
   );
 };

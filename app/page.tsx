@@ -17,7 +17,7 @@ export default function Home() {
     <main>
       <Header />
       <Hero />
-      <Logos />
+      {/* <Logos /> */}
       <Problem />
       <Solution />
       <HowItWorks />

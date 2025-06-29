@@ -16,14 +16,12 @@ const VoiceRecordButton = ({ isCallActive, onRecordingComplete }: VoiceRecordBut
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
 
-  // Clean up on unmount
   useEffect(() => {
     return () => {
       stopRecording()
     }
   }, [])
 
-  // Update recording timer
   useEffect(() => {
     if (isRecording) {
       timerRef.current = setInterval(() => {
@@ -50,7 +48,6 @@ const VoiceRecordButton = ({ isCallActive, onRecordingComplete }: VoiceRecordBut
       console.log("Starting voice recording...")
       audioChunksRef.current = []
 
-      // Get microphone access
       streamRef.current = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: true,
@@ -59,11 +56,9 @@ const VoiceRecordButton = ({ isCallActive, onRecordingComplete }: VoiceRecordBut
         }
       })
 
-      // Create media recorder
       const mediaRecorder = new MediaRecorder(streamRef.current)
       mediaRecorderRef.current = mediaRecorder
 
-      // Set up event handlers
       mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
           audioChunksRef.current.push(event.data)
@@ -75,7 +70,6 @@ const VoiceRecordButton = ({ isCallActive, onRecordingComplete }: VoiceRecordBut
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' })
         onRecordingComplete(audioBlob)
 
-        // Clean up
         if (streamRef.current) {
           streamRef.current.getTracks().forEach(track => track.stop())
           streamRef.current = null
@@ -84,7 +78,6 @@ const VoiceRecordButton = ({ isCallActive, onRecordingComplete }: VoiceRecordBut
         setIsRecording(false)
       }
 
-      // Start recording
       mediaRecorder.start()
       setIsRecording(true)
       console.log("Voice recording started")
@@ -99,7 +92,6 @@ const VoiceRecordButton = ({ isCallActive, onRecordingComplete }: VoiceRecordBut
       console.log("Stopping voice recording...")
       mediaRecorderRef.current.stop()
 
-      // Note: cleanup happens in the onstop handler
     }
   }
 

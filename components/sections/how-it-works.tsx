@@ -1,37 +1,37 @@
 import Features from "@/components/features-vertical";
 import Section from "@/components/section";
-import { Sparkles, Upload, Zap } from "lucide-react";
+import { Headphones, Mic, MessageSquare } from "lucide-react";
 
 const data = [
   {
     id: 1,
-    title: "1. Upload Your Data",
+    title: "1. Start a Consultation",
     content:
-      "Simply upload your data to our secure platform. We support various file formats and data types to ensure a seamless integration with your existing systems.",
+      "Begin your medical consultation with a simple click. Our AI medical assistant will introduce itself and guide you through the conversation process.",
     image: "/dashboard.png",
-    icon: <Upload className="w-6 h-6 text-primary" />,
+    icon: <Headphones className="w-6 h-6 text-primary" />,
   },
   {
     id: 2,
-    title: "2. Click Start",
+    title: "2. Speak Naturally",
     content:
-      "Our advanced AI algorithms automatically process and analyze your data, extracting valuable insights and patterns that would be difficult to identify manually.",
+      "Simply talk about your health questions or concerns. Our advanced speech recognition technology converts your voice to text with high accuracy.",
     image: "/dashboard.png",
-    icon: <Zap className="w-6 h-6 text-primary" />,
+    icon: <Mic className="w-6 h-6 text-primary" />,
   },
   {
     id: 3,
-    title: "3. Get Actionable Insights",
+    title: "3. Receive AI Guidance",
     content:
-      "Receive clear, actionable insights and recommendations based on the AI analysis. Use these insights to make data-driven decisions and improve your business strategies.",
+      "The AI processes your questions and responds with helpful medical information through natural voice conversation. Continue the dialogue as needed for follow-up questions.",
     image: "/dashboard.png",
-    icon: <Sparkles className="w-6 h-6 text-primary" />,
+    icon: <MessageSquare className="w-6 h-6 text-primary" />,
   },
 ];
 
 export default function Component() {
   return (
-    <Section title="How it works" subtitle="Just 3 steps to get started">
+    <Section title="How it works" subtitle="Simple 3-step conversation process">
       <Features data={data} />
     </Section>
   );

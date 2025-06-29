@@ -10,39 +10,56 @@ import {
 import Image from "next/image";
 import { MdOutlineFormatQuote } from "react-icons/md";
 
-const companies = [
-  "Google",
-  "Microsoft",
-  "Amazon",
-  "Netflix",
-  "YouTube",
-  "Instagram",
-  "Uber",
-  "Spotify",
+const testimonials = [
+  {
+    quote: "The voice conversation with Doctor AI was incredibly natural. I was able to describe my symptoms and get helpful information without waiting for a doctor's appointment.",
+    name: "Sarah Johnson",
+    role: "Patient",
+    company: "Healthcare Consumer"
+  },
+  {
+    quote: "As a rural resident, accessing medical advice can be challenging. Doctor AI has been a game-changer for getting quick answers to my health questions without traveling hours to see a specialist.",
+    name: "Robert Chen",
+    role: "Patient",
+    company: "Rural Community Member"
+  },
+  {
+    quote: "I use Doctor AI as a preliminary resource before deciding if I need to schedule an in-person appointment. The voice interface makes it so much easier than typing symptoms into a search engine.",
+    name: "Maria Rodriguez",
+    role: "Patient",
+    company: "Busy Professional"
+  },
+  {
+    quote: "Doctor AI has helped our clinic reduce unnecessary appointments by providing patients with reliable information for minor concerns. It's an excellent complementary tool to our practice.",
+    name: "Dr. James Wilson",
+    role: "Family Physician",
+    company: "Community Health Center"
+  },
+  {
+    quote: "The natural turn-taking conversation flow makes Doctor AI feel much more engaging than other medical chatbots I've tried. It's like speaking with a knowledgeable healthcare professional.",
+    name: "Thomas Wright",
+    role: "Patient",
+    company: "Technology Early Adopter"
+  }
 ];
 
 export default function Component() {
   return (
     <Section
       title="Testimonial Highlight"
-      subtitle="What our customers are saying"
+      subtitle="What our users are saying"
     >
       <Carousel>
         <div className="max-w-2xl mx-auto relative">
           <CarouselContent>
-            {Array.from({ length: 7 }).map((_, index) => (
+            {testimonials.map((testimonial, index) => (
               <CarouselItem key={index}>
                 <div className="p-2 pb-5">
                   <div className="text-center">
                     <MdOutlineFormatQuote className="text-4xl text-themeDarkGray my-4 mx-auto" />
                     <BlurFade delay={0.25} inView>
                       <h4 className="text-1xl font-semibold max-w-lg mx-auto px-10">
-                        There is a lot of exciting stuff going on in the stars
-                        above us that make astronomy so much fun. The truth is
-                        the universe is a constantly changing, moving, some
-                        would say “living” thing because you just never know
-                        what you are going to see on any given night of
-                        stargazing.
+                        {testimonial.quote}
                       </h4>
                     </BlurFade>
                     <BlurFade delay={0.25 * 2} inView>
@@ -51,25 +68,23 @@ export default function Component() {
                           width={0}
                           height={40}
                           key={index}
-                          src={`https://cdn.magicui.design/companies/${
-                            companies[index % companies.length]
-                          }.svg`}
-                          alt={`${companies[index % companies.length]} Logo`}
-                          className="mx-auto w-auto h-[40px] grayscale opacity-30"
+                          src={`https://randomuser.me/api/portraits/${index % 2 === 0 ? 'women' : 'men'}/${(index + 1) * 10}.jpg`}
+                          alt={`${testimonial.name} Avatar`}
+                          className="mx-auto w-auto h-[40px] rounded-full"
                         />
                       </div>
                     </BlurFade>
                     <div className="">
                       <BlurFade delay={0.25 * 3} inView>
                         <h4 className="text-1xl font-semibold my-2">
-                          Leslie Alexander
+                          {testimonial.name}
                         </h4>
                       </BlurFade>
                     </div>
                     <BlurFade delay={0.25 * 4} inView>
                       <div className=" mb-3">
                         <span className="text-sm text-themeDarkGray">
-                          UI Designer
+                          {testimonial.role}, {testimonial.company}
                         </span>
                       </div>
                     </BlurFade>

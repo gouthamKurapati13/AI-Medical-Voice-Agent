@@ -15,7 +15,6 @@ interface ConversationManagerProps {
   onError: (error: string) => void;
 }
 
-// Define the interface for the ref
 export interface ConversationManagerRef {
   handleTranscript: (transcript: string, isFinal: boolean) => void;
 }
@@ -27,7 +26,6 @@ const ConversationManager = forwardRef<ConversationManagerRef, ConversationManag
     const silenceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const processingTranscriptRef = useRef<boolean>(false);
 
-    // Initialize conversation with greeting when call starts
     useEffect(() => {
       if (isCallActive) {
         const initialMessage = {
@@ -39,7 +37,6 @@ const ConversationManager = forwardRef<ConversationManagerRef, ConversationManag
         setMessages([initialMessage]);
         onNewMessage(initialMessage);
       } else {
-        // Reset conversation when call ends
         setMessages([]);
         lastTranscriptRef.current = "";
 
@@ -50,62 +47,52 @@ const ConversationManager = forwardRef<ConversationManagerRef, ConversationManag
       }
     }, [isCallActive, onNewMessage]);
 
-    // Handle user transcript
     const handleTranscript = (transcript: string, isFinal: boolean) => {
       if (!transcript || transcript.trim() === "" || processingTranscriptRef.current) return;
 
-      // Reset silence detection timer when we get new speech
       if (silenceTimeoutRef.current) {
         clearTimeout(silenceTimeoutRef.current);
       }
 
       if (isFinal) {
-        // Process final transcript immediately
         processTranscript(transcript);
       } else {
-        // Set a silence detection timer for partial transcripts
         silenceTimeoutRef.current = setTimeout(() => {
           if (transcript && transcript.trim() !== "") {
             console.log("Silence detected, processing transcript:", transcript);
             processTranscript(transcript);
           }
-        }, 2000); // 2 seconds of silence triggers processing
+        }, 2000);       
       }
     };
 
-    // Process transcript and send to AI
     const processTranscript = async (transcript: string) => {
-      // Prevent duplicate processing
       if (transcript.trim() === lastTranscriptRef.current.trim() || processingTranscriptRef.current) return;
 
       processingTranscriptRef.current = true;
       lastTranscriptRef.current = transcript;
 
-      // Create user message
       const userMessage: Message = {
         role: 'user',
         content: transcript,
         timestamp: Date.now()
       };
 
-      // Add to messages and notify parent
       setMessages(prev => [...prev, userMessage]);
       onNewMessage(userMessage);
 
       try {
-        // Create conversation history for context
         const conversationHistory = messages.map(msg => ({
           role: msg.role,
           content: msg.content
         }));
 
-        // Add user's latest message
         conversationHistory.push({
           role: 'user',
           content: transcript
         });
 
-        // Call API to get AI response
+
         const response = await axios.post('/api/chat', {
           messages: conversationHistory,
           doctorPrompt: doctorPrompt || "You are a helpful AI medical assistant."
@@ -118,7 +105,7 @@ const ConversationManager = forwardRef<ConversationManagerRef, ConversationManag
             timestamp: Date.now()
           };
 
-          // Add assistant message to conversation
+
           setMessages(prev => [...prev, assistantMessage]);
           onNewMessage(assistantMessage);
         }
@@ -126,7 +113,7 @@ const ConversationManager = forwardRef<ConversationManagerRef, ConversationManag
         console.error("Error sending to AI agent:", error);
         onError("Error communicating with AI. Please try again.");
 
-        // Add a fallback message so the conversation can continue
+
         const fallbackMessage: Message = {
           role: 'assistant',
           content: "I'm sorry, I'm having trouble processing your request. Could you please try again?",
@@ -140,12 +127,12 @@ const ConversationManager = forwardRef<ConversationManagerRef, ConversationManag
       }
     };
 
-    // Expose methods to parent component via ref
+
     useImperativeHandle(ref, () => ({
       handleTranscript
     }));
 
-    return null; // This is a non-visual component
+    return null; 
   }
 );
 

@@ -1,7 +1,6 @@
 "use client"
 import { useEffect, useRef, useState } from 'react';
 
-// Define a type for window with webkitAudioContext
 interface WindowWithWebkitAudioContext extends Window {
   webkitAudioContext: typeof AudioContext;
 }
@@ -19,7 +18,7 @@ const AudioProcessor = ({
   onTranscriptReceived,
   onError
 }: AudioProcessorProps) => {
-  // References for audio processing
+
   const audioContextRef = useRef<AudioContext | null>(null);
   const microphoneStreamRef = useRef<MediaStream | null>(null);
   const assemblySocketRef = useRef<WebSocket | null>(null);
@@ -30,7 +29,7 @@ const AudioProcessor = ({
   const reconnectAttemptsRef = useRef(0);
   const MAX_RECONNECT_ATTEMPTS = 5;
 
-  // Initialize audio context and microphone access
+
   useEffect(() => {
     if (isCallActive && !audioContextRef.current) {
       initializeAudio();
@@ -41,14 +40,14 @@ const AudioProcessor = ({
     };
   }, [isCallActive]);
 
-  // Connect to AssemblyAI when call is active
+
   useEffect(() => {
     if (isCallActive && !assemblySocketRef.current) {
       connectToAssemblyAI();
     }
   }, [isCallActive]);
 
-  // Control audio processing based on listening state
+
   useEffect(() => {
     if (isCallActive) {
       if (isListening) {
@@ -59,7 +58,7 @@ const AudioProcessor = ({
     }
   }, [isCallActive, isListening]);
 
-  // Reconnect to AssemblyAI if connection is lost
+
   useEffect(() => {
     if (isCallActive && !isAssemblyConnected && reconnectAttemptsRef.current < MAX_RECONNECT_ATTEMPTS) {
       reconnectTimeoutRef.current = setTimeout(() => {
@@ -77,12 +76,12 @@ const AudioProcessor = ({
 
   const initializeAudio = async () => {
     try {
-      // Initialize audio context
+
       const AudioContextClass = window.AudioContext ||
         ((window as unknown as WindowWithWebkitAudioContext).webkitAudioContext);
       audioContextRef.current = new AudioContextClass();
 
-      // Get microphone access with best quality settings
+
       microphoneStreamRef.current = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: true,
@@ -107,20 +106,20 @@ const AudioProcessor = ({
     }
 
     try {
-      // Close existing connection if any
+
       if (assemblySocketRef.current) {
         assemblySocketRef.current.close();
         assemblySocketRef.current = null;
       }
 
-      // Create WebSocket connection to AssemblyAI
-      assemblySocketRef.current = new WebSocket(`wss://api.assemblyai.com/v2/realtime/ws?sample_rate=16000`);
+
+      assemblySocketRef.current = new WebSocket(`wss:api.assemblyai.com/v2/realtime/ws?sample_rate=16000`);
 
       assemblySocketRef.current.onopen = () => {
         setIsAssemblyConnected(true);
-        reconnectAttemptsRef.current = 0; // Reset reconnect attempts on successful connection
+        reconnectAttemptsRef.current = 0;
 
-        // Send authentication message
+
         if (assemblySocketRef.current) {
           assemblySocketRef.current.send(JSON.stringify({
             token: token,
@@ -160,21 +159,21 @@ const AudioProcessor = ({
       return;
     }
 
-    // Connect microphone to AssemblyAI if not already connected
+
     if (microphoneStreamRef.current && audioContextRef.current && assemblySocketRef.current?.readyState === WebSocket.OPEN) {
       try {
-        // Resume audio context if it's suspended (browser requirement)
+
         if (audioContextRef.current.state === 'suspended') {
           audioContextRef.current.resume();
         }
 
-        // Only create a new source and processor if we don't already have one
+
         if (!audioSourceRef.current) {
           audioSourceRef.current = audioContextRef.current.createMediaStreamSource(microphoneStreamRef.current);
         }
 
         if (!processorNodeRef.current) {
-          // Use a larger buffer size for better performance
+
           processorNodeRef.current = audioContextRef.current.createScriptProcessor(4096, 1, 1);
 
           processorNodeRef.current.onaudioprocess = (e) => {
@@ -187,7 +186,7 @@ const AudioProcessor = ({
           };
         }
 
-        // Connect the nodes to start audio processing
+
         audioSourceRef.current.connect(processorNodeRef.current);
         processorNodeRef.current.connect(audioContextRef.current.destination);
 
@@ -196,14 +195,14 @@ const AudioProcessor = ({
       }
     } else {
       if (!assemblySocketRef.current || assemblySocketRef.current.readyState !== WebSocket.OPEN) {
-        // Try reconnecting
+
         connectToAssemblyAI();
       }
     }
   };
 
   const stopAudioProcessing = () => {
-    // Disconnect audio processing nodes but keep the connection open
+
     if (processorNodeRef.current && audioSourceRef.current) {
       try {
         audioSourceRef.current.disconnect(processorNodeRef.current);
@@ -214,32 +213,32 @@ const AudioProcessor = ({
   };
 
   const cleanupAudio = () => {
-    // Clear any reconnect timeout
+
     if (reconnectTimeoutRef.current) {
       clearTimeout(reconnectTimeoutRef.current);
       reconnectTimeoutRef.current = null;
     }
 
-    // Close AssemblyAI WebSocket
+
     if (assemblySocketRef.current) {
       assemblySocketRef.current.close();
       assemblySocketRef.current = null;
       setIsAssemblyConnected(false);
     }
 
-    // Stop microphone stream
+
     if (microphoneStreamRef.current) {
       microphoneStreamRef.current.getTracks().forEach(track => track.stop());
       microphoneStreamRef.current = null;
     }
 
-    // Close audio context
+
     if (audioContextRef.current) {
       audioContextRef.current.close();
       audioContextRef.current = null;
     }
 
-    // Cleanup processor node
+
     if (processorNodeRef.current) {
       try {
         processorNodeRef.current.disconnect();
@@ -248,7 +247,7 @@ const AudioProcessor = ({
       processorNodeRef.current = null;
     }
 
-    // Cleanup audio source
+
     if (audioSourceRef.current) {
       try {
         audioSourceRef.current.disconnect();
@@ -257,11 +256,11 @@ const AudioProcessor = ({
       audioSourceRef.current = null;
     }
 
-    // Reset reconnect attempts
+
     reconnectAttemptsRef.current = 0;
   };
 
-  // Helper function to downsample audio buffer
+
   const downsampleBuffer = (buffer: Float32Array, sampleRate: number, outSampleRate: number): Float32Array => {
     if (outSampleRate === sampleRate) {
       return buffer;
@@ -291,7 +290,7 @@ const AudioProcessor = ({
     return result;
   };
 
-  // Helper function to convert Float32Array to Int16Array
+
   const convertFloat32ToInt16 = (buffer: Float32Array): Int16Array => {
     const length = buffer.length;
     const buf = new Int16Array(length);
@@ -303,7 +302,7 @@ const AudioProcessor = ({
     return buf;
   };
 
-  return null; // This is a non-visual component
+  return null;
 };
 
 export default AudioProcessor; 

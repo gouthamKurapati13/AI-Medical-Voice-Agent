@@ -23,7 +23,7 @@ A Next.js application that provides an AI-powered medical assistant with real-ti
    ```bash
    npm install
    ```
-3. Create a `.env.local` file with the following variables:
+3. Create a `.env` file with the following variables:
    ```
    # API Keys
    NEXT_PUBLIC_ASSEMBLYAI_API_KEY=your_assemblyai_api_key_here

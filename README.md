@@ -1,6 +1,6 @@
-# Doctor AI Agent
+# AI Medical Agent
 
-A Next.js application that provides an AI-powered medical assistant with real-time voice conversation capabilities.
+A college project showcasing a Next.js application that provides an AI-powered medical assistant with real-time voice conversation capabilities.
 
 ## Features
 
@@ -39,7 +39,7 @@ A Next.js application that provides an AI-powered medical assistant with real-ti
    NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/dashboard
 
    # Database
-   DATABASE_URL="postgresql://postgres:password@localhost:5432/doctor_ai?schema=public"
+   DATABASE_URL="postgresql://postgres:password@localhost:5432/ai_medical_agent?schema=public"
 
    # Other Configuration
    NEXT_PUBLIC_APP_URL=http://localhost:3000

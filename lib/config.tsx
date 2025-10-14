@@ -5,16 +5,16 @@ import { RiInstagramFill } from "react-icons/ri";
 export const BLUR_FADE_DELAY = 0.15;
 
 export const siteConfig = {
-  name: "Doctor.ai",
-  description: "AI-powered medical assistant with voice conversation",
+  name: "AI Medical Agent",
+  description: "College project - AI-powered medical assistant with voice conversation capabilities",
   url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
-  keywords: ["Medical AI", "Voice Assistant", "Healthcare", "AI Doctor", "Medical Consultation"],
+  keywords: ["Medical AI", "Voice Assistant", "Healthcare", "AI Doctor", "Medical Consultation", "College Project"],
   links: {
-    email: "support@doctorai.com",
-    twitter: "https://twitter.com/doctorai",
-    discord: "https://discord.gg/doctorai",
-    github: "https://github.com/doctorai/doctor-ai-agent",
-    instagram: "https://instagram.com/doctorai/",
+    email: "support@aimedicalagent.com",
+    twitter: "https://twitter.com/aimedicalagent",
+    discord: "https://discord.gg/aimedicalagent",
+    github: "https://github.com/aimedicalagent/ai-medical-agent",
+    instagram: "https://instagram.com/aimedicalagent/",
   },
   header: [
     {
@@ -24,10 +24,6 @@ export const siteConfig = {
     {
       label: "Features",
       href: "#features",
-    },
-    {
-      label: "Pricing",
-      href: "#pricing",
     },
     {
       trigger: "Resources",
@@ -62,65 +58,12 @@ export const siteConfig = {
       href: "#contact",
     },
   ],
-  pricing: [
-    {
-      name: "BASIC",
-      href: "#",
-      price: "$19",
-      period: "month",
-      yearlyPrice: "$16",
-      features: [
-        "1 User",
-        "10 Consultations/month",
-        "Basic Medical Support",
-        "Text-only Responses",
-        "Session History (7 days)",
-      ],
-      description: "Perfect for individuals with occasional health questions",
-      buttonText: "Subscribe",
-      isPopular: false,
-    },
-    {
-      name: "PRO",
-      href: "#",
-      price: "$49",
-      period: "month",
-      yearlyPrice: "$40",
-      features: [
-        "5 Users",
-        "50 Consultations/month",
-        "Priority Support",
-        "Voice & Text Responses",
-        "Session History (30 days)",
-      ],
-      description: "Ideal for families and small healthcare practices",
-      buttonText: "Subscribe",
-      isPopular: true,
-    },
-    {
-      name: "ENTERPRISE",
-      href: "#",
-      price: "$99",
-      period: "month",
-      yearlyPrice: "$82",
-      features: [
-        "Unlimited Users",
-        "Unlimited Consultations",
-        "24/7 Premium Support",
-        "Custom Medical Knowledge Base",
-        "Permanent Session History",
-      ],
-      description: "For healthcare organizations and medical practices",
-      buttonText: "Subscribe",
-      isPopular: false,
-    },
-  ],
   faqs: [
     {
-      question: "What is Doctor AI?",
+      question: "What is AI Medical Agent?",
       answer: (
         <span>
-          Doctor AI is an AI-powered medical assistant that provides real-time voice conversations to help answer your health questions. It uses advanced speech-to-text and text-to-speech technology to create a natural, conversational experience.
+          AI Medical Agent is a college project showcasing an AI-powered medical assistant that provides real-time voice conversations to help answer health questions. It uses advanced speech-to-text and text-to-speech technology to create a natural, conversational experience.
         </span>
       ),
     },
@@ -141,10 +84,10 @@ export const siteConfig = {
       ),
     },
     {
-      question: "Can Doctor AI replace my actual doctor?",
+      question: "Can AI Medical Agent replace my actual doctor?",
       answer: (
         <span>
-          No, Doctor AI is designed to be a helpful resource but is not a replacement for professional medical care. Always consult with a qualified healthcare professional for medical advice, diagnosis, and treatment.
+          No, AI Medical Agent is a college project designed to be a helpful resource but is not a replacement for professional medical care. Always consult with a qualified healthcare professional for medical advice, diagnosis, and treatment.
         </span>
       ),
     },
@@ -152,7 +95,7 @@ export const siteConfig = {
       question: "What browsers and devices are supported?",
       answer: (
         <span>
-          Doctor AI works best in Chrome and Edge browsers. The voice features require a device with a microphone and speakers. Safari may have limited WebSocket support. Mobile devices are supported but may have varying performance.
+          AI Medical Agent works best in Chrome and Edge browsers. The voice features require a device with a microphone and speakers. Safari may have limited WebSocket support. Mobile devices are supported but may have varying performance.
         </span>
       ),
     },
@@ -162,19 +105,16 @@ export const siteConfig = {
       title: "Product",
       links: [
         { href: "#", text: "Features", icon: null },
-        { href: "#", text: "Pricing", icon: null },
         { href: "#", text: "Documentation", icon: null },
-        { href: "#", text: "API", icon: null },
+        { href: "#", text: "About", icon: null },
       ],
     },
     {
       title: "Company",
       links: [
-        { href: "#", text: "About Us", icon: null },
-        { href: "#", text: "Careers", icon: null },
-        { href: "#", text: "Blog", icon: null },
-        { href: "#", text: "Press", icon: null },
-        { href: "#", text: "Partners", icon: null },
+        { href: "#", text: "About Project", icon: null },
+        { href: "#", text: "GitHub", icon: null },
+        { href: "#", text: "Contact", icon: null },
       ],
     },
     {

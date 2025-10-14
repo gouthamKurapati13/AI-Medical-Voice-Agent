@@ -18,25 +18,6 @@ function HeroPill() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div className="w-fit rounded-full bg-accent px-2 py-0.5 text-center text-xs font-medium text-primary sm:text-sm">
-        📣 Announcement
-      </div>
-      <p className="text-xs font-medium text-primary sm:text-sm">
-        Introducing Doctor AI Agent
-      </p>
-      <svg
-        width="12"
-        height="12"
-        className="ml-1"
-        viewBox="0 0 12 12"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M8.78141 5.33312L5.20541 1.75712L6.14808 0.814453L11.3334 5.99979L6.14808 11.1851L5.20541 10.2425L8.78141 6.66645H0.666748V5.33312H8.78141Z"
-          fill="hsl(var(--primary))"
-        />
-      </svg>
     </motion.div>
   );
 }
@@ -92,7 +73,7 @@ function HeroCTA() {
   return (
     <>
       <motion.div
-        className="mx-auto mt-6 flex w-full max-w-2xl flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0"
+        className="mx-auto mt-6 mb-10 flex w-full max-w-2xl flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -108,14 +89,6 @@ function HeroCTA() {
           {user ? "Dashboard" : "Start a consultation"}
         </Link>
       </motion.div>
-      <motion.p
-        className="mt-5 text-sm text-muted-foreground"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.0, duration: 0.8 }}
-      >
-        10 credits free. No credit card required.
-      </motion.p>
     </>
   );
 }
@@ -128,14 +101,6 @@ function HeroImage() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1.2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
     >
-      <HeroVideoDialog
-        animationStyle="from-center"
-        videoSrc="https://imagekit.io/player/embed/rmyd10ywi/Recording%202025-06-29%20204016.mp4?updatedAt=1751212929355&thumbnail=https%3A%2F%2Fik.imagekit.io%2Frmyd10ywi%2FRecording%25202025-06-29%2520204016.mp4%2Fik-thumbnail.jpg%3FupdatedAt%3D1751212929355&updatedAt=1751212929355"
-        // allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-        thumbnailSrc="/dashboard.png"
-        thumbnailAlt="Hero Video"
-        className="border rounded-lg shadow-lg max-w-screen-lg mt-16"
-      />
     </motion.div>
   );
 }
@@ -144,10 +109,8 @@ export default function Hero2() {
   return (
     <section id="hero">
       <div className="relative flex w-full flex-col items-center justify-start px-4 pt-32 sm:px-6 sm:pt-24 md:pt-32 lg:px-8">
-        <HeroPill />
         <HeroTitles />
         <HeroCTA />
-        <HeroImage />
         <div className="pointer-events-none absolute inset-x-0 -bottom-12 h-1/3 bg-gradient-to-t from-background via-background to-transparent lg:h-1/4"></div>
       </div>
     </section>

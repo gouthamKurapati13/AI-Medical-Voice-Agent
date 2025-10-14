@@ -8,8 +8,8 @@ export default function CtaSection() {
   return (
     <Section
       id="cta"
-      title="Ready to speak with our AI medical assistant?"
-      subtitle="Start your free consultation today."
+      title="Ready to try our AI medical assistant?"
+      subtitle="Experience the future of healthcare technology - A college project demonstration."
       className="bg-primary/10 rounded-xl py-16"
     >
       <div className="flex flex-col w-full sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 pt-4">
@@ -21,7 +21,7 @@ export default function CtaSection() {
           )}
         >
           <Icons.logo className="h-6 w-6" />
-          Start a free consultation
+          Try the demo
         </Link>
       </div>
     </Section>

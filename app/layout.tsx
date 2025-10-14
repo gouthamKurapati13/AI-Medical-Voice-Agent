@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Docter Agent | Sumama khan",
-  description: "AI Docter voice agent which can help you to get the best treatment for your health",
+  title: "AI Medical Agent | College Project",
+  description: "College project demonstrating an AI Medical voice agent with real-time conversation capabilities to provide healthcare information",
 };
 
 export default function RootLayout({

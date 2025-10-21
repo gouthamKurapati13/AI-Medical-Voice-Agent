@@ -13,9 +13,6 @@ A college project showcasing a Next.js application that provides an AI-powered m
 - Turn-taking conversation flow (listens for user input after AI speaks)
 - User authentication with Clerk
 
-  ## Video
-[Click here](https://imagekit.io/player/embed/rmyd10ywi/Recording%202025-06-29%20204016.mp4?updatedAt=1751212929355&thumbnail=https%3A%2F%2Fik.imagekit.io%2Frmyd10ywi%2FRecording%25202025-06-29%2520204016.mp4%2Fik-thumbnail.jpg%3FupdatedAt%3D1751212929355&updatedAt=1751212929355)
-
 ## Setup
 
 1. Clone the repository
@@ -100,7 +97,3 @@ If you encounter issues with the voice conversation functionality:
    - Check if the microphone indicator turns green after the AI speaks
    - Try speaking louder or moving closer to your microphone
    - Check if your browser's console shows any WebSocket errors
-
-## License
-
-[MIT](LICENSE)
